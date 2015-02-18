@@ -10,6 +10,8 @@ SRC_URI = "file://helloworld.c"
 
 S = "${WORKDIR}"
 
+inherit useradd
+
 do_compile() {
         ${CC} helloworld.c -o helloworld
 }
@@ -18,3 +20,10 @@ do_install() {
         install -d ${D}${bindir}
         install -m 0755 helloworld ${D}${bindir}
 }
+
+PASSWORD ?= "miDBHFo2hJSAA"
+USERADD_PACKAGES = "${PN}"
+USERADD_PARAM_${PN} = "--system --create-home \
+    --groups tty \
+    --password ${PASSWORD} \
+    --user-group ${PN}"
